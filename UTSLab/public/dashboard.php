@@ -16,6 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         createToDoList($user_id, $list_title);
         header("Location: dashboard.php");
         exit();
+    }elseif (isset($_POST['delete_list'])) { //buat ngapus list
+        $list_id = filter_input(INPUT_POST, 'delete_list', FILTER_SANITIZE_NUMBER_INT);
+        deleteToDoList($list_id, $user_id);  //panggil fungsi di functions.php
+        header("Location: dashboard.php");
+        exit();
     }
 }
 ?>
