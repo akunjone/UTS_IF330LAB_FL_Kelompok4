@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($list_info['title']); ?> - To-Do List App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach ($priorities as $key => $title): ?>
                 <div class="todo-column <?php echo $key; ?>">
                     <h2>
-                        <img src="assets/images/clock-must_do <?php echo $key; ?>.svg" alt="Clock icon" class="clock-icon">
+                        <img src="../assets/images/clock.png" class="clock-icon">
                         <?php echo $title; ?>
                     </h2>
                     <?php foreach ($tasks[$key] as $task): ?>
