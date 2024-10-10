@@ -82,16 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach ($priorities as $key => $title): ?>
                 <div class="todo-column <?php echo $key; ?>">
                     <h2>
-                        <img src="assets/images/clock-<?php echo $key; ?>.svg" alt="Clock icon" class="clock-icon">
+                        <img src="assets/images/clock-must_do <?php echo $key; ?>.svg" alt="Clock icon" class="clock-icon">
                         <?php echo $title; ?>
                     </h2>
                     <?php foreach ($tasks[$key] as $task): ?>
                         <div class="todo-item <?php echo $task['is_completed'] ? 'completed' : ''; ?>">
-                            <form action="todo.php?list_id=<?php echo $list_id; ?>" method="post">
-                                <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
-                                <input type="checkbox" name="is_completed" id="task-<?php echo $task['id']; ?>" <?php echo $task['is_completed'] ? 'checked' : ''; ?> onchange="this.form.submit()">
-                                <label for="task-<?php echo $task['id']; ?>"><?php echo htmlspecialchars($task['description']); ?></label>
-                            </form>
+                        <form action="todo.php?list_id=<?php echo $list_id; ?>" method="post">
+                            <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                            <input type="hidden" name="update_task" value="1"> <!--update task, jadi nanti pas dicentang, database update value is_completed-->
+                            <input type="checkbox" name="is_completed" id="task-<?php echo $task['id']; ?>" <?php echo $task['is_completed'] ? 'checked' : ''; ?> onchange="this.form.submit()">
+                            <label for="task-<?php echo $task['id']; ?>"><?php echo htmlspecialchars($task['description']); ?></label>
+                        </form>
                         </div>
                     <?php endforeach; ?>
                     <button class="btn btn-sm btn-add-task" data-bs-toggle="modal" data-bs-target="#addTaskModal" data-priority="<?php echo $key; ?>">+ Add Task</button>
