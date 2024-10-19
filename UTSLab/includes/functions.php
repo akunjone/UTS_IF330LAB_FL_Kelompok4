@@ -30,13 +30,49 @@ function addTask($list_id, $description, $priority) {
     return $stmt->execute();
 }
 
-function getTasks($list_id, $priority) {
+function getTasks($list_id, $priority, $searchQuery, $filter) {
     $conn = getDbConnection();
-    $stmt = $conn->prepare("SELECT * FROM tasks WHERE list_id = ? AND priority = ? ORDER BY is_completed, id");
-    $stmt->bind_param("is", $list_id, $priority);
+
+    $sql = "SELECT * FROM tasks WHERE list_id = ? AND priority = ?";
+
+    $params = [$list_id, $priority];
+
+    if ($filter === 'completed') {
+        $sql .= " AND is_completed = 1";
+    } elseif ($filter === 'uncompleted') {
+        $sql .= " AND is_completed = 0";
+    }
+
+    if (!empty($searchQuery)) {
+        $sql .= " AND description LIKE ?";
+        $params[] = '%' . $searchQuery . '%'; //nambahin search query ke params
+    }
+
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        error_log("SQL error: " . $conn->error);
+        return []; //kalo error return empty
+    }
+
+    $stmt->bind_param(str_repeat('i', count($params) - 1) . 's', ...$params);
+
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    $result = $stmt->get_result();
+
+    $tasks = [];
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    $stmt->close();
+
+    return $tasks;
 }
+
+
+
 
 function updateTaskStatus($task_id, $is_completed) {
     $conn = getDbConnection();

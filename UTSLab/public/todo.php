@@ -21,11 +21,14 @@ if (!$list_info) {
     exit();
 }
 
+$filter = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING) ?: 'all';
+$searchQuery = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING) ?: '';
+
 $tasks = [
-    'must_do' => getTasks($list_id, 'must_do'),
-    'should_do' => getTasks($list_id, 'should_do'),
-    'could_do' => getTasks($list_id, 'could_do'),
-    'if_time' => getTasks($list_id, 'if_time'),
+    'must_do' => getTasks($list_id, 'must_do', $searchQuery, $filter),
+    'should_do' => getTasks($list_id, 'should_do', $searchQuery, $filter),
+    'could_do' => getTasks($list_id, 'could_do', $searchQuery, $filter),
+    'if_time' => getTasks($list_id, 'if_time', $searchQuery, $filter),
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -45,6 +48,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
 }
 ?>
+
+<script>
+    document.querySelectorAll('.btn-filter').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the filter value from the data-filter attribute
+            const filterValue = this.getAttribute('data-filter');
+
+            // Update the URL with the selected filter
+            const url = new URL(window.location.href);
+            url.searchParams.set('filter', filterValue);
+
+            // Reload the page with the new filter
+            window.location.href = url;
+        });
+    });
+
+    // Get the current filter from the URL
+    const currentFilter = new URLSearchParams(window.location.search).get('filter') || 'all';
+
+    // Set the corresponding button as active
+    document.querySelectorAll('.btn-filter').forEach(button => {
+        if (button.getAttribute('data-filter') === currentFilter) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+
+    function filterTasks(filter) {
+        const listId = "<?php echo $list_id; ?>"; // Get the list ID from PHP
+        window.location.href = `todo.php?list_id=${listId}&filter=${filter}`;
+    }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,6 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="todo-date">Date: <?php echo date('d.m.Y'); ?></p>
         </div>
 
+        <div class="mb-3">
+            <button class="btn btn-filter active" data-filter="all" onclick="filterTasks('all')">All</button>
+            <button class="btn btn-filter" data-filter="completed" onclick="filterTasks('completed')">Completed</button>
+            <button class="btn btn-filter" data-filter="uncompleted" onclick="filterTasks('uncompleted')">Uncompleted</button>
+        </div>
+
+        
         <div class="todo-grid">
             <?php
             $priorities = [

@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="container mt-4">
         <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-        
+        <?php 
+        date_default_timezone_set('Asia/Jakarta');
+        echo date("l, d F Y, h:i A");
+        ?>
         <div class="row mt-4">
             <div class="col-md-4">
                 <h2>Create New List</h2>
@@ -56,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <button type="submit" name="new_list" class="btn btn-primary">Create List</button>
                 </form>
+                <input type="text" class="form-control mt-3" id="search-input" placeholder="Search tasks...">
             </div>
             <div class="col-md-8">
                 <h2>Your To-Do Lists</h2>
@@ -65,6 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo htmlspecialchars($list['title']); ?></h5>
+                                    <small>Created: <?php echo date("d F Y, h:i A", strtotime($list['created_at'])); ?>
+                                    </small><br/>
                                     <a href="todo.php?list_id=<?php echo $list['id']; ?>" class="btn btn-sm btn-primary">View Tasks</a>
                                     <form action="dashboard.php" method="post" class="d-inline">
                                         <input type="hidden" name="delete_list" value="<?php echo $list['id']; ?>">
