@@ -1,0 +1,8 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #41acdd, #6164ff);
+}
+
+.container {
+    margin-top: 30px;
+}

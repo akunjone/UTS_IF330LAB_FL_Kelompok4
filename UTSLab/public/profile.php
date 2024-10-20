@@ -43,7 +43,8 @@ $user_data = getUserData($user_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - To-Do List App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="../assets/css/profile.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -97,11 +98,5 @@ $user_data = getUserData($user_id);
             </div>
         </div>
     </div>
-
-    <footer class="footer mt-4 py-3 bg-light">
-        <div class="container">
-            <span class="text-muted">To-Do List App © 2024</span>
-        </div>
-    </footer>
 </body>
 </html>
