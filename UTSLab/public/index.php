@@ -1,4 +1,5 @@
 <?php
+//kalo sudah ada session, maka akan diarahkan ke dashboard
 session_start();
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard.php");
@@ -7,6 +8,7 @@ if (isset($_SESSION['user_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+<!--buat landing page paling awal-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
