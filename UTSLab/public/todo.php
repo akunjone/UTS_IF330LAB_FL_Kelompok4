@@ -52,22 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script>
     document.querySelectorAll('.btn-filter').forEach(button => {
         button.addEventListener('click', function() {
-            // Get the filter value from the data-filter attribute
+            //dapetin filter value dari attribute
             const filterValue = this.getAttribute('data-filter');
 
-            // Update the URL with the selected filter
+            //update url dengan filter baru
             const url = new URL(window.location.href);
             url.searchParams.set('filter', filterValue);
 
-            // Reload the page with the new filter
+            //reload dengan filter baru
             window.location.href = url;
         });
     });
 
-    // Get the current filter from the URL
+    //get filter dari url
     const currentFilter = new URLSearchParams(window.location.search).get('filter') || 'all';
 
-    // Set the corresponding button as active
+    //bikin button jadi active
     document.querySelectorAll('.btn-filter').forEach(button => {
         if (button.getAttribute('data-filter') === currentFilter) {
             button.classList.add('active');
