@@ -102,10 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <h5 class="card-title"><?php echo htmlspecialchars($task['description']); ?></h5>
                                         <small>Priority: <?php echo htmlspecialchars($task['priority']); ?></small><br/>
                                         <small>Status: <?php echo $task['is_completed'] ? 'Completed' : 'Uncompleted'; ?></small>
-                                        <form action="dashboard.php" method="post" class="d-inline">
-                                            <input type="hidden" name="delete_task" value="<?php echo $task['id']; ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
